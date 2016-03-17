@@ -11,8 +11,8 @@
 		
 		if( $redirection != '' )
 		{
-			if ( $redirection === 'profile') {
-				// redirect to BP edit profile page if user input is profile.
+			if ( $redirection === 'memberTypeEditor') {
+				// redirect to BP edit profile page if Member Type Editor, which has an option value of memberTypeEditor, is the selected choice.
 				// start by getting the field group id for the member type that user selected.
 				$FGName = bp_get_member_type($user_id);
 				function bp_Get_FieldgroupID($FieldgroupName){
@@ -24,6 +24,8 @@
 				$FieldgroupID = bp_Get_FieldgroupID($FGName);
 				// redirect according to field group id.
 				wp_safe_redirect("../members/$user_info->user_login/profile/edit/group/$FieldgroupID/");
+			} elseif ( $redirection === 'profile') {
+				wp_safe_redirect("../members/$user_info->user_login/profile");
 			} else {
 				// otherwise, assume user is requesting a normal Wordpress Page.
 				wp_safe_redirect("../$redirection");
@@ -53,6 +55,7 @@
 		// UNCOMMENT FOR PICKLIST
                 //'choices' => $redirarray,
 		'choices' => array(
+			'memberTypeEditor' => __( 'Member Type Editor' , $this->WPB_PREFIX),
 			'profile' => __( 'Profile' , $this->WPB_PREFIX)
 			),
 		'multiple' => FALSE,
