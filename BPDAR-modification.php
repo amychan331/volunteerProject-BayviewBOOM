@@ -9,9 +9,9 @@
 // Location: Line 207, after "do_action('bp_disable_activation_after_login');"
 		$redirection = apply_filters('dar_redirection_url',$options['redirection']);
 		
-		if( $redirection != '' )
+		switch ($redirection) 
 		{
-			if ( $redirection === 'memberTypeEditor') {
+			case 'memberTypeEditor':
 				// redirect to BP edit profile page if Member Type Editor, which has an option value of memberTypeEditor, is the selected choice.
 				// start by getting the field group id for the member type that user selected.
 				$FGName = bp_get_member_type($user_id);
@@ -24,14 +24,15 @@
 				$FieldgroupID = bp_Get_FieldgroupID($FGName);
 				// redirect according to field group id.
 				wp_safe_redirect("../members/$user_info->user_login/profile/edit/group/$FieldgroupID/");
-			} elseif ( $redirection === 'profile') {
+				break;
+			case 'profile':
 				wp_safe_redirect("../members/$user_info->user_login/profile");
-			} else {
+				break;
+			default:
 				// otherwise, assume user is requesting a normal Wordpress Page.
 				wp_safe_redirect("../$redirection");
-			}
-			die();
 		}
+		die();
 
 // File: admin/fields.php
 // Line location: Line 20, after "$pages = get_pages();"
